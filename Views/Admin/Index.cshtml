@@ -1,0 +1,91 @@
+﻿@model IEnumerable<OnlineBookStore.Models.Book>
+@{
+    ViewData["Title"] = "Admin Dashboard - Online Book Store";
+}
+
+<div class="container-fluid mt-3">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 bg-dark text-white p-3 rounded">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a asp-action="Index" class="nav-link text-white">Dashboard</a></li>
+                <li class="nav-item"><a href="#inventory" class="nav-link text-white">Manage Books</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-10 p-4">
+            <h2 class="mb-4">Dashboard Overview</h2>
+
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card text-white bg-primary mb-3 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Books</h5>
+                            <h3>@ViewBag.TotalBooks</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-success mb-3 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Orders</h5>
+                            <h3>@ViewBag.TotalOrders</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-warning mb-3 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Active Users</h5>
+                            <h3>@ViewBag.TotalUsers</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add New Book Form -->
+            <div class="card p-3 mb-4 bg-light">
+                <h5>Add New Book</h5>
+                <form asp-action="Create" method="post" class="row g-2">
+                    <div class="col-md-3"><input name="Title" class="form-control" placeholder="Title" required /></div>
+                    <div class="col-md-3"><input name="Author" class="form-control" placeholder="Author" required /></div>
+                    <div class="col-md-2"><input name="Price" type="number" step="0.01" class="form-control" placeholder="Price" required /></div>
+                    <div class="col-md-2"><input name="Stock" type="number" class="form-control" placeholder="Stock" required /></div>
+                    <div class="col-md-2"><button type="submit" class="btn btn-success w-100">Add Book</button></div>
+                </form>
+            </div>
+
+            <h4 id="inventory">Recent Books Inventory</h4>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover mt-3">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Title</td>
+                                <td>@item.Author</td>
+                                <td>$@item.Price</td>
+                                <td>@item.Stock</td>
+                                <td>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
